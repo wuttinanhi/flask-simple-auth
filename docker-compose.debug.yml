@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  flasksimpleauth:
+    image: flasksimpleauth
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: base_stage
+    ports:
+      - 5000:5000
