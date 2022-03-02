@@ -23,7 +23,14 @@
 		"python.linting.pylintEnabled": true,
 		"python.languageServer": "Pylance",
 		"git.ignoreMissingGitWarning": true,
-		"python.formatting.provider": "autopep8"
+		"python.formatting.provider": "autopep8",
+		"python.linting.flake8Enabled": false,
+		"python.linting.enabled": true,
+		"python.linting.pylintArgs": [
+			"--init-hook",
+			"import sys; sys.path.append('/app')",
+			"--load-plugins pylint_flask_sqlalchemy"
+		]
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [

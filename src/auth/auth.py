@@ -1,19 +1,16 @@
 """
     auth module
 """
-from http.client import INTERNAL_SERVER_ERROR
-from typing import Any
+from http.client import CREATED, OK
 from flask import Blueprint, make_response, request
+from src.user.user import UserService, User
+from src.exception.auth_fail import AuthFail
+
 
 auth_blueprint = Blueprint("auth_blueprint", __name__, url_prefix="/auth")
 
-MOCKED_DATABASE = {
-    "admin": "adminpwd",
-    "user": "userpwd"
-}
 
-
-class AuthService:
+class AuthService():
     """
     class AuthService
     """
@@ -21,17 +18,21 @@ class AuthService:
     @staticmethod
     def login(username, password):
         """ login user """
-        if MOCKED_DATABASE.get(username):
-            if MOCKED_DATABASE.get(username) == password:
-                return True
-            return False
-        raise RuntimeError("User not found!")
+        try:
+            user = User.get_query().filter(
+                User.username == username
+            ).filter(
+                User.password == password
+            ).one()
+            return user
+        except:
+            raise AuthFail()
 
     @staticmethod
     def register(username, password):
         """ register user"""
-        MOCKED_DATABASE[username] = password
-        return 1
+        user = UserService.create_user(username, password)
+        return user
 
 
 @auth_blueprint.route("/login", methods=["POST"])
@@ -40,7 +41,13 @@ def login():
     data = request.get_json(force=True)
     username = data["username"]
     password = data["password"]
-    return {"status": 200, "auth_status": AuthService.login(username, password)}
+    user = AuthService.login(username, password)
+    response = make_response({
+        "id": user.id,
+        "username": user.username
+    })
+    response.status = OK
+    return response
 
 
 @auth_blueprint.route("/register", methods=["POST"])
@@ -49,12 +56,13 @@ def register():
     data = request.get_json(force=True)
     username = data["username"]
     password = data["password"]
-    return {"status": 201, "id": AuthService.register(username, password)}
-
-
-@auth_blueprint.errorhandler(RuntimeError)
-def handle_runtime_error(error: Any):
-    """ runtime exception handler """
-    response = make_response({"status": 500, "error": type(error).__name__})
-    response.status = INTERNAL_SERVER_ERROR
+    user = AuthService.register(username, password)
+    response = make_response({"id": user.id})
+    response.status = CREATED
     return response
+
+
+@auth_blueprint.app_errorhandler(AuthFail)
+def handle_auth_fail(exception: AuthFail):
+    """ auth fail exception handler """
+    return exception.get_reponse()
