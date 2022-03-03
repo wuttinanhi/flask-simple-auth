@@ -29,7 +29,7 @@
 		"python.linting.pylintArgs": [
 			"--init-hook",
 			"import sys; sys.path.append('/app')",
-			"--load-plugins pylint_flask_sqlalchemy"
+			// "--load-plugins pylint_flask_sqlalchemy"
 		]
 	},
 	// Add the IDs of extensions you want installed when the container is created.
