@@ -1,6 +1,9 @@
-from src.exception.auth_fail import AuthFail
-from flask import Blueprint, make_response, request
+"""
+    auth route
+"""
 from http.client import CREATED, OK
+from flask import Blueprint, make_response, request
+from src.exception.auth_fail import AuthFail
 from . import AuthService
 
 auth_blueprint = Blueprint("auth_blueprint", __name__, url_prefix="/auth")

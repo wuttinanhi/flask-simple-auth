@@ -1,9 +1,12 @@
+"""
+    user service class
+"""
+# pylint: disable=no-member
 from __future__ import annotations
-from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.session import Session
 from src.database import db
 from src.exception.user_already_exists import UserAlreadyExists
-from sqlalchemy.orm.session import Session
 from .model import User
 
 
@@ -21,5 +24,5 @@ class UserService:
             session.add(user)
             session.commit()
             return user
-        except IntegrityError:
-            raise UserAlreadyExists()
+        except IntegrityError as exception:
+            raise UserAlreadyExists() from exception

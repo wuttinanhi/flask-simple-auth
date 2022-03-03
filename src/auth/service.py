@@ -1,6 +1,9 @@
-from src.user import UserService, User
-from src.exception.auth_fail import AuthFail
+"""
+    auth service class
+"""
 import bcrypt
+from src.exception.auth_fail import AuthFail
+from src.user import User, UserService
 
 
 class AuthService():
@@ -13,11 +16,11 @@ class AuthService():
         """ login user """
         try:
             user = User.get_query().filter(User.username == username).one()
-            if bcrypt.checkpw(password.encode("utf-8"), user.password) == False:
+            if bcrypt.checkpw(password.encode("utf-8"), user.password) is False:
                 raise AuthFail()
             return user
-        except:
-            raise AuthFail()
+        except Exception as exception:
+            raise AuthFail() from exception
 
     @staticmethod
     def register(username: str, password: str):

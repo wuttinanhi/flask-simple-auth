@@ -1,6 +1,8 @@
+
 """
     main app
 """
+# pylint: disable=unused-argument
 from http.client import BAD_REQUEST, INTERNAL_SERVER_ERROR
 from flask import Flask, make_response
 from src.database import db
@@ -9,25 +11,28 @@ from src.user import user_blueprint
 
 
 def create_app():
+    """
+        create app wrapper
+    """
     # create app
-    app = Flask(__name__)
+    __app = Flask(__name__)
 
     # register things
-    with app.app_context():
+    with __app.app_context():
         # register database
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.db'
-        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-        db.init_app(app)
+        __app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.db'
+        __app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+        db.init_app(__app)
 
         # create table
         db.create_all()
 
         # register blueprint
-        app.register_blueprint(auth_blueprint)
-        app.register_blueprint(user_blueprint)
+        __app.register_blueprint(auth_blueprint)
+        __app.register_blueprint(user_blueprint)
 
     # return configured app
-    return app
+    return __app
 
 
 app = create_app()

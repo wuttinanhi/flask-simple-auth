@@ -1,7 +1,11 @@
+"""
+    user model
+"""
 from __future__ import annotations
+
 from sqlalchemy import Column, Integer, String
-from src.database import db
 from sqlalchemy.orm.query import Query
+from src.database import db
 
 
 class User(db.Model):
@@ -12,7 +16,11 @@ class User(db.Model):
     username = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
 
+    @staticmethod
     def get_query() -> Query[User]:
+        """
+            get query wrapper for type hint
+        """
         return User.query
 
     def __init__(self, username: str, password: str) -> None:
