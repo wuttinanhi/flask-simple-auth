@@ -5,8 +5,10 @@
 # pylint: disable=unused-argument
 from http.client import BAD_REQUEST, INTERNAL_SERVER_ERROR
 from flask import Flask, make_response
+from marshmallow.exceptions import ValidationError
 from src.database import db
 from src.auth import auth_blueprint
+from src.exception.validation_exception import ValidationException
 from src.user import user_blueprint
 
 
@@ -66,3 +68,10 @@ def handle_internal_server_exception(exception):
     })
     response.status = INTERNAL_SERVER_ERROR
     return response
+
+
+@app.errorhandler(ValidationError)
+def handle_validation_error_fail(exception: ValidationError):
+    """ validation exception handler """
+    ex = ValidationException(exception)
+    return ex.get_reponse()
