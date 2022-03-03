@@ -4,7 +4,7 @@
 from http.client import BAD_REQUEST, INTERNAL_SERVER_ERROR
 from flask import Flask, make_response
 from src.database import db
-from src.auth.auth import auth_blueprint
+from src.auth import auth_blueprint
 from src.user.user import user_blueprint
 
 
@@ -12,13 +12,13 @@ def create_app():
     # create app
     app = Flask(__name__)
 
-    # register database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-    db.init_app(app)
-
     # register things
     with app.app_context():
+        # register database
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.db'
+        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+        db.init_app(app)
+
         # create table
         db.create_all()
 
