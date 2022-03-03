@@ -1,4 +1,4 @@
-from src.user.user import UserService, User
+from src.user import UserService, User
 from src.exception.auth_fail import AuthFail
 import bcrypt
 

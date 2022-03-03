@@ -5,7 +5,7 @@ from http.client import BAD_REQUEST, INTERNAL_SERVER_ERROR
 from flask import Flask, make_response
 from src.database import db
 from src.auth import auth_blueprint
-from src.user.user import user_blueprint
+from src.user import user_blueprint
 
 
 def create_app():
