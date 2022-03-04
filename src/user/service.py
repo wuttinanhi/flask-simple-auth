@@ -6,7 +6,7 @@ from __future__ import annotations
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.session import Session
 from src.database import db
-from src.exception.user_already_exists import UserAlreadyExists
+from src.exception import UserAlreadyExistsException
 from .model import User
 
 
@@ -25,4 +25,4 @@ class UserService:
             session.commit()
             return user
         except IntegrityError as exception:
-            raise UserAlreadyExists() from exception
+            raise UserAlreadyExistsException() from exception

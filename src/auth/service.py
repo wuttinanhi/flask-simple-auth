@@ -2,7 +2,7 @@
     auth service class
 """
 import bcrypt
-from src.exception.auth_fail import AuthFail
+from src.exception import AuthFailExcepion
 from src.user import User, UserService
 
 
@@ -17,10 +17,10 @@ class AuthService():
         try:
             user = User.get_query().filter(User.username == username).one()
             if bcrypt.checkpw(password.encode("utf-8"), user.password) is False:
-                raise AuthFail()
+                raise AuthFailExcepion()
             return user
         except Exception as exception:
-            raise AuthFail() from exception
+            raise AuthFailExcepion() from exception
 
     @staticmethod
     def register(username: str, password: str):

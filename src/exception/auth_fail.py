@@ -5,7 +5,7 @@ from http.client import UNAUTHORIZED
 from src.exception.app_exception import AppException
 
 
-class AuthFail(AppException):
+class AuthFailExcepion(AppException):
     """
         auth fail exception class
     """

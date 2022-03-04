@@ -5,7 +5,7 @@ from http.client import CONFLICT
 from src.exception.app_exception import AppException
 
 
-class UserAlreadyExists(AppException):
+class UserAlreadyExistsException(AppException):
     """
         user already exists exception class
     """

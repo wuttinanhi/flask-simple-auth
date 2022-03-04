@@ -4,8 +4,9 @@
 from http.client import CREATED, OK
 from flask import Blueprint, make_response, request
 from src.auth.dto import AuthLoginDto, AuthRegisterDto
-from src.exception.auth_fail import AuthFail
+from src.exception import AuthFailExcepion
 from . import AuthService
+
 
 auth_blueprint = Blueprint("auth_blueprint", __name__, url_prefix="/auth")
 
@@ -45,7 +46,7 @@ def register():
     return response
 
 
-@auth_blueprint.app_errorhandler(AuthFail)
-def handle_auth_fail(exception: AuthFail):
+@auth_blueprint.app_errorhandler(AuthFailExcepion)
+def handle_auth_fail(exception: AuthFailExcepion):
     """ auth fail exception handler """
     return exception.get_reponse()
