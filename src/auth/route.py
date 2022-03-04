@@ -2,7 +2,7 @@
     auth route
 """
 from http.client import CREATED, OK
-from flask import Blueprint, make_response, request
+from flask import Blueprint, make_response, request, session
 from src.auth.dto import AuthLoginDto, AuthRegisterDto
 from src.exception import AuthFailExcepion
 from . import AuthService
@@ -21,12 +21,13 @@ def login():
 
     user = AuthService.login(username, password)
 
+    session["user_id"] = user.id
+
     response = make_response({
         "id": user.id,
         "username": user.username
     })
     response.status = OK
-
     return response
 
 
@@ -42,7 +43,16 @@ def register():
 
     response = make_response({"id": user.id})
     response.status = CREATED
+    return response
 
+
+@auth_blueprint.route("/logout", methods=["GET"])
+def logout():
+    """ logout route """
+    session.pop("user_id", None)
+
+    response = make_response({"status": OK})
+    response.status = OK
     return response
 
 

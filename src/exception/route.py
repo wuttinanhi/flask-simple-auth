@@ -44,7 +44,6 @@ def handle_validation_error_fail(exception: ValidationError):
 
 
 @exception_handler_blueprint.app_errorhandler(INTERNAL_SERVER_ERROR)
-@exception_handler_blueprint.app_errorhandler(Exception)
 def handle_internal_server_exception(exception: Exception):
     """ handle internal server exception (status 500) """
     response = make_response({
