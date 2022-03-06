@@ -2,7 +2,7 @@
     auth dto
 """
 from marshmallow import Schema, fields, post_load, validate
-from src.user import User
+from src.user.model import User
 
 
 class AuthLoginDto(Schema):

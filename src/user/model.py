@@ -12,16 +12,11 @@ class User(db.Model):
     """
         user model
     """
+    query: Query[User]
+
     id = Column(Integer, primary_key=True)
     username = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
-
-    @staticmethod
-    def get_query() -> Query[User]:
-        """
-            get query wrapper for type hint
-        """
-        return User.query
 
     def __init__(self, username: str, password: str) -> None:
         self.username = username

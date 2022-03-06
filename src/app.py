@@ -5,12 +5,12 @@
 # pylint: disable=unused-argument
 import random
 import string
-from flask import Flask
-from src.auth import auth_blueprint
+from flask import Flask, render_template
+from src.auth.route import auth_blueprint
 from src.database import db
-from src.exception import exception_handler_blueprint
-from src.security import security_blueprint
-from src.user import user_blueprint
+from src.exception.route import exception_handler_blueprint
+from src.security.route import security_blueprint
+from src.user.route import user_blueprint
 
 
 def create_app():
@@ -19,6 +19,7 @@ def create_app():
     """
     # create app
     __app = Flask(__name__)
+    __app.template_folder = "template"
 
     # register things
     with __app.app_context():
@@ -52,4 +53,5 @@ app = create_app()
 @app.route("/")
 def hello_world():
     """ root route """
-    return "<p>Hello, World!</p>"
+    # return "<p>Hello, World!</p>"
+    return render_template("index.html")

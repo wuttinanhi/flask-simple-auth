@@ -8,7 +8,7 @@ from sqlalchemy.orm.session import Session
 from src.database import db
 from src.exception import UserAlreadyExistsException
 from src.exception.user_not_found import UserNotFoundException
-from .model import User
+from src.user.model import User
 
 
 class UserService:
@@ -32,7 +32,7 @@ class UserService:
     def get_user_from_id(id):
         """ get user from given id """
         try:
-            user = User.get_query().filter(User.id == id).one()
+            user = User.query.filter(User.id == id).one()
             return user
         except Exception as exception:
             raise UserNotFoundException() from exception

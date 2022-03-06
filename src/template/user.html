@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+
+<head> {% block head %} <title>{% block title %}User{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> {% endblock %}
+</head>
+
+<body>
+    <div class="flex h-screen w-screen bg-blue-100">
+        <div class="flex m-auto w-full">
+            <!-- START LOGIN FORM -->
+            <div class="bg-white shadow-md rounded px-5 pt-6 pb-8 mb-4 mx-auto flex flex-col w-1/5">
+                <div class="mb-4 w-full">
+                    <label class="block text-grey-darker text-lg mb-2" for="username">Username: {{ username }}</label>
+                </div>
+                <div class="flex items-center justify-end w-full">
+                    <a href="/auth/logout">
+                        <button class="bg-red-500 hover:bg-red-600 text-white font-bold p-2 rounded" type="button">Sign out</button>
+                    </a>
+                </div>
+            </div>
+            <!-- END LOGIN FORM -->
+        </div>
+    </div>
+</body>
+
+</html>

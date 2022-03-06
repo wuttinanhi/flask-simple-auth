@@ -13,7 +13,7 @@
                 "run",
                 "--no-debugger"
             ],
-            "jinja": false,
+            "jinja": true,
         }
     ]
 }

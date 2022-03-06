@@ -3,7 +3,8 @@
 """
 import bcrypt
 from src.exception import AuthFailExcepion
-from src.user import User, UserService
+from src.user.model import User
+from src.user.service import UserService
 
 
 class AuthService():
@@ -15,7 +16,7 @@ class AuthService():
     def login(username: str, password: str):
         """ login user """
         try:
-            user = User.get_query().filter(User.username == username).one()
+            user = User.query.filter(User.username == username).one()
             if bcrypt.checkpw(password.encode("utf-8"), user.password) is False:
                 raise AuthFailExcepion()
             return user

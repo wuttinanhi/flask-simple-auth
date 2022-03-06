@@ -30,13 +30,16 @@
 			"--init-hook",
 			"import sys; sys.path.append('/app')",
 			// "--load-plugins pylint_flask_sqlalchemy"
-		]
+		],
+		// HTML
+		"html.format.wrapLineLength": 200
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-python.vscode-pylance",
 		"ms-python.python",
 		"VisualStudioExptTeam.vscodeintellicode",
+		"wholroyd.jinja",
 	]
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
