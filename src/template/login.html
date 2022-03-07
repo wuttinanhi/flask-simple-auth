@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head> {% block head %} <title>{% block title %}Home{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> {% endblock %}
+</head>
+
+<body>
+    <div class="flex h-screen w-screen bg-blue-100">
+        <div class="flex m-auto w-full">
+            <!-- START LOGIN FORM -->
+            <div class="bg-white shadow-md rounded px-5 pt-6 pb-8 mb-4 mx-auto flex flex-col w-1/5">
+                <form action="/auth/login" method="post">
+                    <div class="mb-4 w-full">
+                        <label class="block text-grey-darker text-sm font-bold mb-2" for="username">Username </label>
+                        <input class="shadow appearance-none border rounded w-full py-3 px-5 text-grey-darker" name="username" type="text" placeholder="Username">
+                    </div>
+                    <div class="w-full">
+                        <label class="block text-grey-darker text-sm font-bold mb-2" for="password"> Password </label>
+                        <input class="shadow appearance-none border border-red rounded w-full py-3 px-5 text-grey-darker mb-3" name="password" type="password" placeholder="*****">
+                    </div>
+                    <!-- START flash error section -->
+                    <div class="mb-6">
+                        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                        {% if errors %}
+                        {%- for msg in errors %}
+                        <p class="block text-red-300 text-md">{{ msg }}</p>
+                        {% endfor -%}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    <!-- END flash error section -->
+                    <div class="flex items-center justify-between w-full">
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-5 rounded" type="submit">Sign in</button>
+                        <a class="inline-block align-baseline text-md text-blue-500" href="/auth/register">Sign up</a>
+                    </div>
+                </form>
+            </div>
+            <!-- END LOGIN FORM -->
+        </div>
+    </div>
+</body>
+
+</html>

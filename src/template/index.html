@@ -12,20 +12,17 @@
         <div class="flex m-auto w-full">
             <!-- START LOGIN FORM -->
             <div class="bg-white shadow-md rounded px-5 pt-6 pb-8 mb-4 mx-auto flex flex-col w-1/5">
-                <form action="/auth/login" method="post">
-                    <div class="mb-4 w-full">
-                        <label class="block text-grey-darker text-sm font-bold mb-2" for="username">Username </label>
-                        <input class="shadow appearance-none border rounded w-full py-3 px-5 text-grey-darker" name="username" type="text" placeholder="Username">
-                    </div>
-                    <div class="mb-6 w-full">
-                        <label class="block text-grey-darker text-sm font-bold mb-2" for="password"> Password </label>
-                        <input class="shadow appearance-none border border-red rounded w-full py-3 px-5 text-grey-darker mb-3" name="password" type="password" placeholder="*****">
-                    </div>
-                    <div class="flex items-center justify-between w-full">
-                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-5 rounded" type="submit">Sign In</button>
-                        <a class="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-500" href="#"> Register </a>
-                    </div>
-                </form>
+                <div class="mb-4 w-full">
+                    <h1 class="block text-grey-500 mb-2 text-xl text-center">Welcome to Flask Simple Login</h1>
+                </div>
+                <div class="flex items-center justify-between w-full">
+                    <a href="/auth/login">
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-5 rounded">Sign in</button>
+                    </a>
+                    <a href="/auth/register">
+                        <button class="bg-white text-blue-500 border-2 border-blue-500 font-bold py-3 px-5 rounded">Sign up</button>
+                    </a>
+                </div>
             </div>
             <!-- END LOGIN FORM -->
         </div>

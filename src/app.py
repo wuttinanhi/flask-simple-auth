@@ -51,7 +51,7 @@ app = create_app()
 
 
 @app.route("/")
-def hello_world():
+def root():
     """ root route """
     # return "<p>Hello, World!</p>"
     return render_template("index.html")

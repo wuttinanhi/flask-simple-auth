@@ -31,7 +31,8 @@
 			// "--load-plugins pylint_flask_sqlalchemy"
 		],
 		// HTML
-		"html.format.wrapLineLength": 200
+		"html.format.wrapLineLength": 200,
+		"html.format.preserveNewLines": true
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [

@@ -1,21 +1,26 @@
 """
     user route
 """
-from flask import Blueprint, render_template
+from flask import Blueprint
+from src.decorator.use_template_decorator import use_template
 from src.exception import UserAlreadyExistsException
 from src.decorator.decorator_logged_in import logged_in
 from src.security.service import SecurityService
 from src.exception.user_not_found import UserNotFoundException
 
-user_blueprint = Blueprint("user", __name__, url_prefix="/user")
+user_blueprint = Blueprint("api_user", __name__, url_prefix="/api/user")
 
 
 @user_blueprint.route("/", methods=["GET"])
 @logged_in()
-def user():
-    """ user page """
+@use_template("user.html")
+def get_user():
+    """ user route """
     user = SecurityService.get_user()
-    return render_template("user.html", user_id=user.id, username=user.username)
+    return {
+        "id": user.id,
+        "username": user.username
+    }
 
 
 @user_blueprint.app_errorhandler(UserAlreadyExistsException)
