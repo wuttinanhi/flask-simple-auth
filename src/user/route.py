@@ -14,8 +14,8 @@ user_blueprint = Blueprint("user", __name__, url_prefix="/user")
 @logged_in()
 def user():
     """ user page """
-    user = SecurityService.get_user()
-    return render_template("user.html", user_id=user.id, username=user.username)
+    current_user = SecurityService.get_user()
+    return render_template("user.html", user_id=current_user.id, username=current_user.username)
 
 
 @user_blueprint.app_errorhandler(UserAlreadyExistsException)
