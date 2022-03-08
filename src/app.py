@@ -3,8 +3,7 @@
     main app
 """
 # pylint: disable=unused-argument
-import random
-import string
+import os
 from flask import Flask, render_template
 from src.auth.route import auth_blueprint
 from src.database import db
@@ -23,10 +22,16 @@ def create_app():
 
     # register things
     with __app.app_context():
+        # get env value
+        flask_env = os.getenv("FLASK_ENV")
+        session_secret = os.getenv("SESSION_SECRET")
+
+        if (session_secret == "development_secret" or len(session_secret) == 0) and flask_env == "production":
+            raise Exception(
+                'Environment variable "SESSION_SECRET" was not set!'
+            )
+
         # assign session secret
-        session_secret = ''.join(random.choices(
-            string.ascii_uppercase + string.digits, k=5)
-        )
         __app.secret_key = session_secret
 
         # register database
