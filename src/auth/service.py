@@ -1,9 +1,7 @@
 """
     auth service class
 """
-import bcrypt
-from src.exception import AuthFailExcepion
-from src.user.model import User
+from src.exception.auth_fail import AuthFailExcepion
 from src.user.service import UserService
 
 
@@ -15,20 +13,13 @@ class AuthService():
     @staticmethod
     def login(username: str, password: str):
         """ login user """
-        try:
-            user = User.query.filter(User.username == username).one()
-            if bcrypt.checkpw(password.encode("utf-8"), user.password) is False:
-                raise AuthFailExcepion()
-            return user
-        except Exception as exception:
-            raise AuthFailExcepion() from exception
+        user = UserService.get_user_from_username(username)
+        if UserService.compare_password(user, password) is False:
+            raise AuthFailExcepion()
+        return user
 
     @staticmethod
     def register(username: str, password: str):
         """ register user"""
-        hashed_password = bcrypt.hashpw(
-            password.encode("utf-8"),
-            bcrypt.gensalt()
-        )
-        user = UserService.create_user(username, hashed_password)
+        user = UserService.create_user(username, password)
         return user
