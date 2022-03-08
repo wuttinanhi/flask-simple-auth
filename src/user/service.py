@@ -63,5 +63,8 @@ class UserService:
     @staticmethod
     def get_user_from_username(username: str):
         """ get user by given username """
-        user = User.query.filter(User.username == username).one()
-        return user
+        try:
+            user = User.query.filter(User.username == username).one()
+            return user
+        except Exception as exception:
+            raise UserNotFoundException() from exception
