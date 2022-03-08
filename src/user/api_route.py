@@ -4,7 +4,7 @@
 from flask import Blueprint
 from src.decorator.use_template_decorator import use_template
 from src.exception import UserAlreadyExistsException
-from src.decorator.decorator_logged_in import logged_in
+from src.decorator.logged_in_decorator import logged_in
 from src.security.service import SecurityService
 from src.exception.user_not_found import UserNotFoundException
 

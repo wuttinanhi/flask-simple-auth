@@ -1,17 +1,17 @@
 """
     auth route
 """
-from http.client import CREATED, OK
-from flask import Blueprint, flash, make_response, redirect, render_template, request, session, url_for
+from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from marshmallow import ValidationError
-from src.auth.dto import AuthLoginDto, AuthRegisterDto
+from src.auth.dto import AuthChangePasswordDto, AuthLoginDto, AuthRegisterDto
 from src.exception import AuthFailExcepion
-from src.decorator.view_redirect_decorator import view_redirect
 from src.auth.service import AuthService
 from src.exception.app_exception import AppException
 from src.exception.validation_exception import ValidationException
+from src.security.service import SecurityService
+from src.user.service import UserService
 from src.util.parse_request_wrapper import parse_request
-
+from src.decorator.logged_in_decorator import logged_in
 
 auth_blueprint = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -89,6 +89,50 @@ def logout():
 
     # redirect to index page
     return redirect(url_for("root"))
+
+
+@auth_blueprint.route("/changepassword", methods=["GET", "POST"])
+@logged_in()
+def changepassword():
+    """ change password route """
+    try:
+        # if request is GET method return change password page
+        if request.method == "GET":
+            return render_template("changepassword.html")
+
+        user = SecurityService.get_user()
+
+        # parse data
+        schema = AuthChangePasswordDto()
+        data = schema.load(parse_request())
+        current_password = data.current_password
+        new_password = data.new_password
+
+        # compare password first
+        if UserService.compare_password(user, current_password) is False:
+            raise AuthFailExcepion()
+
+        # change user password
+        user = UserService.change_password(user, new_password)
+
+        # set session to user id
+        session["user_id"] = user.id
+
+        # redirect to user page
+        return redirect(url_for("user.user"))
+    except AppException as exception:
+        # flash error and return template
+        flash(str(exception.message), "error")
+        return render_template("changepassword.html")
+    except ValidationError as exception:
+        # convert to validate error exception
+        validation_exception = ValidationException(exception)
+
+        # flash error and return template
+        for field, reasons in validation_exception.errors.items():
+            for reason in reasons:
+                flash(f'{field} {reason}', "error")
+        return render_template("changepassword.html")
 
 
 @auth_blueprint.app_errorhandler(AuthFailExcepion)
